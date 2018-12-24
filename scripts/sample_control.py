@@ -86,11 +86,14 @@ if __name__ == '__main__':
                     call_app_mult('sample_controller', 'sample_sleep.py')
                     sc.isLaunched = True
                     sc.crr_node = 'sample_sleep'
+                    rospy.loginfo("Sleep")
                     break
                 elif word == "話す":
                     call_app_mult('sample_controller', 'sample_speaker.py')
                     sc.isLaunched = True
                     sc.crr_node = "sample_speaker"
+                    rospy.loginfo("speak")
+                    break
         elif sc.isLaunched is True:
             """アプリが起動しているので、終了させる"""
             if node_is_launched(sc.crr_node) is False:
@@ -102,6 +105,7 @@ if __name__ == '__main__':
             for word in sc.words:
                 if word == "終わり":
                     kill_node(sc.crr_node)
+                    rospy.loginfo("END: " + sc.crr_node)
                     sc.isLaunched = False
                     sc.crr_node = ""
                     break
