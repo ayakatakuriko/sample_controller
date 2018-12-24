@@ -75,6 +75,14 @@ def start_app(sc, pkg, type, name):
     sc.words = []
 
 
+def start_app_not_loop(sc, pkg, type, name):
+    """自動的に終わるようなアプリをスタートさせる"""
+    sc.isLaunched = True
+    sc.crr_node = name
+    sc.call_app(pkg, type)
+    sc.words = []
+
+
 def end_app(sc):
     """アプリを終了させる"""
     sc.kill_node(sc.crr_node)
@@ -104,8 +112,8 @@ if __name__ == '__main__':
                               'sample_sleep.py', 'sample_sleep')
                     break
                 elif word == "話す":
-                    start_app(sc, 'sample_controller',
-                              'sample_speaker.py', "sample_speaker")
+                    start_app_not_loop(sc, 'sample_controller',
+                                       'sample_speaker.py', "sample_speaker")
                     break
                 elif word == "バイバイ":
                     rospy.signal_shutdown('Quit')
