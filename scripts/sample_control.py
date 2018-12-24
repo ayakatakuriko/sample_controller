@@ -78,6 +78,7 @@ if __name__ == '__main__':
                     sc.call_app_mult('sample_controller', 'sample_sleep.py')
                     while sc.node_is_launched(sc.crr_node) is False:
                         # 読んだノードが立ち上がるまで待つ
+			pass
                     sc.words = []
                     break
                 elif word == "話す":
