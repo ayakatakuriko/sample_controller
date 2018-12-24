@@ -2,6 +2,7 @@ import rospy
 from subprocess import *
 from std_msgs.msg import String
 import rosnode
+import MeCab
 
 
 class SampleControl():
