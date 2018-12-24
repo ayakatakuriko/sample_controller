@@ -21,7 +21,7 @@ def usage():
 
 if __name__ == "__main__":
     rospy.init_node('sample_speaker')
-    print "%s" % (speak_client("こんばんわに"))
+    rospy.loginfo(speak_client("こんばんわに"))
 
 """
 speak_server.pyのテスト用
