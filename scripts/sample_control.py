@@ -55,17 +55,7 @@ class SampleControl():
         指定されたノード名を持つノードをkillする。
         @param name ノード名
         """
-        p2 = Popen(['rosnode', 'list'], stdout=PIPE)
-        p2.wait()
-        nodelist = p2.communicate()
-        nd = nodelist[0]
-        nd = nd.split("\n")
-        for i in range(len(nd)):
-            tmp = nd[i]
-            ind = tmp.find(name)
-            if ind == 1:
-                call(['rosnode', 'kill', nd[i]])
-                break
+        call(['rosnode', kill, '/' + name])
 
     def node_is_launched(self, name):
         """
