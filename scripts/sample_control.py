@@ -55,7 +55,7 @@ class SampleControl():
         指定されたノード名を持つノードをkillする。
         @param name ノード名
         """
-        call(['rosnode', kill, '/' + name])
+        call(['rosnode', 'kill', '/' + name])
 
     def node_is_launched(self, name):
         """
