@@ -62,7 +62,7 @@ class SampleControl():
         nd = nd.split("\n")
         for i in range(len(nd)):
             tmp = nd[i]
-            ind = tmp.find(nodename)
+            ind = tmp.find(name)
             if ind == 1:
                 call(['rosnode', 'kill', nd[i]])
                 break
