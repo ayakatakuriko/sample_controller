@@ -14,7 +14,7 @@ class SampleControl():
         self.isLaunched = False  # 今、呼び出されているアプリがあるか
         self.crr_node = ''  # 　現在起動中のアプリのノード名
 
-    def parse(text):
+    def parse(self, text):
         """/speechを単語単位に分割"""
         m = MeCab.Tagger("-Ochasen")
         node = m.parseToNode(text)
@@ -31,7 +31,7 @@ class SampleControl():
         """Subscriber用"""
         self.words = self.parse(msg.data)
 
-    def call_app(pkg, type):
+    def call_app(self, pkg, type):
         """
         指定したアプリケーションを呼び出す関数
         プログラムが正常終了すると処理を抜ける。
@@ -41,7 +41,7 @@ class SampleControl():
         """
         call(['rosrun', pkg, type])
 
-    def call_app_mult(pkg, type):
+    def call_app_mult(self, pkg, type):
         """
         指定したアプリケーションを呼び出す関数
         起動したノードをマルチプロセスで起動したまま次の処理へ移行。
@@ -50,7 +50,7 @@ class SampleControl():
         """
         Popen(['rosrun', pkg, type])
 
-    def kill_node(name):
+    def kill_node(self, name):
         """
         指定されたノード名を持つノードをkillする。
         @param name ノード名
@@ -67,7 +67,7 @@ class SampleControl():
                 call(['rosnode', 'kill', nd[i]])
                 break
 
-    def node_is_launched(name):
+    def node_is_launched(self, name):
         """
         指定したノードが起動しているのかを返す
         """
@@ -84,13 +84,13 @@ if __name__ == '__main__':
             for word in sc.words:
                 rospy.loginfo("word: " + word)
                 if word == "テスト":
-                    call_app_mult('sample_controller', 'sample_sleep.py')
+                    sc.call_app_mult('sample_controller', 'sample_sleep.py')
                     sc.isLaunched = True
                     sc.crr_node = 'sample_sleep'
                     rospy.loginfo("Sleep")
                     break
                 elif word == "話す":
-                    call_app_mult('sample_controller', 'sample_speaker.py')
+                    sc.call_app_mult('sample_controller', 'sample_speaker.py')
                     sc.isLaunched = True
                     sc.crr_node = "sample_speaker"
                     rospy.loginfo("speak")
@@ -105,7 +105,7 @@ if __name__ == '__main__':
 
             for word in sc.words:
                 if word == "終わり":
-                    kill_node(sc.crr_node)
+                    sc.kill_node(sc.crr_node)
                     rospy.loginfo("END: " + sc.crr_node)
                     sc.isLaunched = False
                     sc.crr_node = ""
