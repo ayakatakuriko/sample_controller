@@ -29,7 +29,7 @@ class SampleControl():
 
     def get_words(self, msg):
         """Subscriber用"""
-        self.words = parse(msg.data)
+        self.words = self.parse(msg.data)
 
     def call_app(pkg, type):
         """
