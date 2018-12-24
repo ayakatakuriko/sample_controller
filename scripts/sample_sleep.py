@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+#encoding: utf8
 import time
 import rospy
 
