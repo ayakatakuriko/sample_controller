@@ -27,7 +27,7 @@ class SampleControl():
             node = node.next
         return words_list
 
-    def get_words(msg):
+    def get_words(self, msg):
         """Subscriber用"""
         self.words = parse(msg.data)
 
