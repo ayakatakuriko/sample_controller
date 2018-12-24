@@ -97,7 +97,7 @@ if __name__ == '__main__':
                     break
         elif sc.isLaunched is True:
             """アプリが起動しているので、終了させる"""
-            if node_is_launched(sc.crr_node) is False:
+            if sc.node_is_launched(sc.crr_node) is False:
                 """こちらからkillせず、アプリ側で終了した場合"""
                 sc.isLaunched = False
                 sc.crr_node = ""
