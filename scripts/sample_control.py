@@ -9,7 +9,7 @@ import MeCab
 
 class SampleControl():
     def __init__(self):
-        sub = rospy.Subscriber("/speech", String, get_words)
+        sub = rospy.Subscriber("/speech", String, self.get_words)
         self.words = []  # 1文を単語単位に分割して格納
         self.isLaunched = False  # 今、呼び出されているアプリがあるか
         self.crr_node = ''  # 　現在起動中のアプリのノード名
