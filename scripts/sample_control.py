@@ -76,27 +76,26 @@ if __name__ == '__main__':
                     sc.isLaunched = True
                     sc.crr_node = 'sample_sleep'
                     sc.call_app_mult('sample_controller', 'sample_sleep.py')
-		    sc.words = []
+                    sc.words = []
                     break
                 elif word == "話す":
                     sc.isLaunched = True
                     sc.crr_node = "sample_speaker"
                     sc.call_app('sample_controller', 'sample_speaker.py')
-		    sc.words = []
+                    sc.words = []
                     break
         elif sc.isLaunched is True:
             """アプリが起動しているので、終了させる"""
-            if sc.node_is_launched(sc.crr_node) is False:
-                """こちらからkillせず、アプリ側で終了した場合"""
-                sc.isLaunched = False
-                sc.crr_node = ""
-                continue
-
             for word in sc.words:
                 if word == "終わり":
+                    if sc.node_is_launched(sc.crr_node) is False:
+                        """こちらからkillせず、アプリ側で終了した場合"""
+                        sc.isLaunched = False
+                        sc.crr_node = ""
+                        continue
                     sc.kill_node(sc.crr_node)
                     rospy.loginfo("END: " + sc.crr_node)
                     sc.isLaunched = False
                     sc.crr_node = ""
-		    sc.words = []
+                    sc.words = []
                     break
