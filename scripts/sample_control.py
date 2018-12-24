@@ -82,12 +82,12 @@ if __name__ == '__main__':
         if sc.isLaunched is False:
             """起動しているアプリがないので、呼ばれるまで待機"""
             for word in sc.words:
-                if word == "テスト"
+                if word == "テスト":
                     call_app_mult('sample_controller', 'sample_sleep.py')
                     sc.isLaunched = True
                     sc.crr_node = 'sample_sleep'
                     break
-                elif word = "話す"
+                elif word = "話す":
                     call_app_mult('sample_controller', 'sample_speaker.py')
                     sc.isLaunched = True
                     sc.crr_node = "sample_speaker"
@@ -100,7 +100,7 @@ if __name__ == '__main__':
                 continue
 
             for word in sc.words:
-                if word == "終わり"
+                if word == "終わり":
                     kill_node(sc.crr_node)
                     sc.isLaunched = False
                     sc.crr_node = ""
