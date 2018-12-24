@@ -87,6 +87,8 @@ if __name__ == '__main__':
                     sc.call_app('sample_controller', 'sample_speaker.py')
                     sc.words = []
                     break
+                elif word == "バイバイ":
+                    rospy.signal_shutdown('Quit')
         elif sc.isLaunched is True:
             """アプリが起動しているので、終了させる"""
             if sc.node_is_launched(sc.crr_node) is False:
@@ -105,4 +107,7 @@ if __name__ == '__main__':
                     sc.words = []
                     break
                 elif word == "バイバイ":
+                    # このROSノードをシャットダウン
+                    sc.kill_node(sc.crr_node)
+                    rospy.loginfo("END: " + sc.crr_node)
                     rospy.signal_shutdown('Quit')
