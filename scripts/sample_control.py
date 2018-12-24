@@ -82,6 +82,7 @@ if __name__ == '__main__':
         if sc.isLaunched is False:
             """起動しているアプリがないので、呼ばれるまで待機"""
             for word in sc.words:
+                rospy.loginfo("word: " + word)
                 if word == "テスト":
                     call_app_mult('sample_controller', 'sample_sleep.py')
                     sc.isLaunched = True

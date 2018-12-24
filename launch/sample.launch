@@ -1,4 +1,5 @@
 <launch>
   <node name="sample_control" pkg="sample_controller" type="sample_control.py" />
   <node name="speaker_server" pkg="speak_tools" type="speak_server.py"/>
+  <node name="speech" pkg="voice_control" type="speech.py"/>
 </launch>
