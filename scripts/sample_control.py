@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+#encoding: utf8
 import rospy
 from subprocess import *
 from std_msgs.msg import String
