@@ -78,7 +78,7 @@ if __name__ == '__main__':
                     sc.call_app_mult('sample_controller', 'sample_sleep.py')
                     while sc.node_is_launched(sc.crr_node) is False:
                         # 読んだノードが立ち上がるまで待つ
-			pass
+                        pass
                     sc.words = []
                     break
                 elif word == "話す":
@@ -91,6 +91,7 @@ if __name__ == '__main__':
             """アプリが起動しているので、終了させる"""
             if sc.node_is_launched(sc.crr_node) is False:
                 """こちらからkillせず、アプリ側で終了した場合"""
+                rospy.loginfo("END: " + sc.crr_node)
                 sc.isLaunched = False
                 sc.crr_node = ""
                 continue
@@ -103,3 +104,5 @@ if __name__ == '__main__':
                     sc.crr_node = ""
                     sc.words = []
                     break
+                elif word == "バイバイ":
+                    rospy.signal_shutdown('Quit')
