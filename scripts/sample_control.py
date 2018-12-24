@@ -9,7 +9,7 @@ import MeCab
 
 class SampleControl():
     def __init__(self):
-        sub = rospy.Subscriber("/speech", String, get_text)
+        sub = rospy.Subscriber("/speech", String, get_words)
         self.words = []  # 1文を単語単位に分割して格納
         self.isLaunched = False  # 今、呼び出されているアプリがあるか
         self.crr_node = ''  # 　現在起動中のアプリのノード名
@@ -87,7 +87,7 @@ if __name__ == '__main__':
                     sc.isLaunched = True
                     sc.crr_node = 'sample_sleep'
                     break
-                elif word = "話す":
+                elif word == "話す":
                     call_app_mult('sample_controller', 'sample_speaker.py')
                     sc.isLaunched = True
                     sc.crr_node = "sample_speaker"
