@@ -64,6 +64,33 @@ class SampleControl():
         return rosnode.rosnode_ping('/' + name, max_count=1, verbose=False)
 
 
+def start_app(sc, pkg, type, name):
+    """アプリをスタートさせる"""
+    sc.isLaunched = True
+    sc.crr_node = name
+    sc.call_app_mult(pkg, type)
+    while sc.node_is_launched(sc.crr_node) is False:
+        # 読んだノードが立ち上がるまで待つ
+        pass
+    sc.words = []
+
+
+def end_app(sc):
+    """アプリを終了させる"""
+    sc.kill_node(sc.crr_node)
+    rospy.loginfo("END: " + sc.crr_node)
+    sc.isLaunched = False
+    sc.crr_node = ""
+    sc.words = []
+
+
+def exit_control(sc):
+    """このノード自身を終了させる"""
+    sc.kill_node(sc.crr_node)
+    rospy.loginfo("END: " + sc.crr_node)
+    rospy.signal_shutdown('Quit')
+
+
 if __name__ == '__main__':
     rospy.init_node('sample_control')
     sc = SampleControl()
@@ -73,19 +100,12 @@ if __name__ == '__main__':
             """起動しているアプリがないので、呼ばれるまで待機"""
             for word in sc.words:
                 if word == "テスト":
-                    sc.isLaunched = True
-                    sc.crr_node = 'sample_sleep'
-                    sc.call_app_mult('sample_controller', 'sample_sleep.py')
-                    while sc.node_is_launched(sc.crr_node) is False:
-                        # 読んだノードが立ち上がるまで待つ
-                        pass
-                    sc.words = []
+                    start_app(sc, 'sample_controller',
+                              'sample_sleep.py', 'sample_sleep')
                     break
                 elif word == "話す":
-                    sc.isLaunched = True
-                    sc.crr_node = "sample_speaker"
-                    sc.call_app('sample_controller', 'sample_speaker.py')
-                    sc.words = []
+                    start_app(sc, 'sample_controller',
+                              'sample_speaker.py', "sample_speaker")
                     break
                 elif word == "バイバイ":
                     rospy.signal_shutdown('Quit')
@@ -100,14 +120,8 @@ if __name__ == '__main__':
 
             for word in sc.words:
                 if word == "終わり":
-                    sc.kill_node(sc.crr_node)
-                    rospy.loginfo("END: " + sc.crr_node)
-                    sc.isLaunched = False
-                    sc.crr_node = ""
-                    sc.words = []
+                    end_app(sc)
                     break
                 elif word == "バイバイ":
                     # このROSノードをシャットダウン
-                    sc.kill_node(sc.crr_node)
-                    rospy.loginfo("END: " + sc.crr_node)
-                    rospy.signal_shutdown('Quit')
+                    exit_control(sc)
