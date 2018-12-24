@@ -73,15 +73,15 @@ if __name__ == '__main__':
             """起動しているアプリがないので、呼ばれるまで待機"""
             for word in sc.words:
                 if word == "テスト":
-                    sc.call_app_mult('sample_controller', 'sample_sleep.py')
                     sc.isLaunched = True
                     sc.crr_node = 'sample_sleep'
+                    sc.call_app_mult('sample_controller', 'sample_sleep.py')
                     rospy.loginfo("Sleep")
                     break
                 elif word == "話す":
-                    sc.call_app_mult('sample_controller', 'sample_speaker.py')
                     sc.isLaunched = True
                     sc.crr_node = "sample_speaker"
+                    sc.call_app('sample_controller', 'sample_speaker.py')
                     rospy.loginfo("speak")
                     break
         elif sc.isLaunched is True:
