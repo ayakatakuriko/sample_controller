@@ -116,6 +116,7 @@ def speak_mode(self, mode):
     モード切替の際の発話を行う。
     modeを起動します。と喋る。
     """
+
     msg = mode + "を起動します。"
     speak_client(msg)
 
