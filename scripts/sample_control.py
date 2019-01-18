@@ -5,6 +5,18 @@ from subprocess import *
 from std_msgs.msg import String
 import rosnode
 import MeCab
+from speak_tools.srv import *
+import time
+
+
+def speak_client(text):
+    rospy.wait_for_service("speak_text")
+    try:
+        speak_text = rospy.ServiceProxy("speak_text", SpeakedText)
+        resp = speak_text(text)
+        return resp.message
+    except rospy.ServiceException, e:
+        print "Service call failed: %s" % e
 
 
 class SampleControl():
@@ -99,6 +111,15 @@ def exit_control(sc):
     rospy.signal_shutdown('Quit')
 
 
+def speak_mode(self, mode):
+    """
+    モード切替の際の発話を行う。
+    modeを起動します。と喋る。
+    """
+    msg = mode + "を起動します。"
+    speak_client(msg)
+
+
 if __name__ == '__main__':
     rospy.init_node('sample_control')
     sc = SampleControl()
@@ -108,10 +129,12 @@ if __name__ == '__main__':
             """起動しているアプリがないので、呼ばれるまで待機"""
             for word in sc.words:
                 if word == "テスト":
+                    sc.speak_mode("テストモード")
                     start_app(sc, 'sample_controller',
                               'sample_sleep.py', 'sample_sleep')
                     break
                 elif word == "話す":
+                    sc.speak_mode("サンプルスピーク")
                     start_app_not_loop(sc, 'sample_controller',
                                        'sample_speaker.py', "sample_speaker")
                     break
