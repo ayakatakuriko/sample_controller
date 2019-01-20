@@ -98,6 +98,10 @@ def start_app_not_loop(sc, pkg, type, name):
 
 def end_app(sc):
     """アプリを終了させる"""
+    if sc.crr_node == "weather_forecast":
+        info_msg = "天気予報モードを終了します。"
+        speak_client(info_msg)
+        print info_msg + "\n"
     sc.kill_node(sc.crr_node)
     rospy.loginfo("END: " + sc.crr_node)
     sc.isLaunched = False
@@ -126,20 +130,33 @@ if __name__ == '__main__':
                 speak_client(info_msg)
                 print info_msg + "\n"
                 flag = True
+            preword = ""
             for word in sc.words:
-                if word == "テスト":
-                    start_app(sc, 'sample_controller',
-                              'sample_sleep.py', 'sample_sleep')
+                if word == "人見知り":
+                    info_msg = "人見知りモードを開始します。"
+                    speak_client(info_msg)
+                    print info_msg + "\n"
+                    time.sleep(1.5)
+                    start_app_not_loop(sc, 'shy_rbsk',
+                                       'shy_robot.py', 'shy_robot_node')
                     flag = False
                     break
-                elif word == "話す":
-                    start_app_not_loop(sc, 'sample_controller',
-                                       'sample_speaker.py', "sample_speaker")
+                elif word == "予報" and preword == "天気":
+                    info_msg = "天気予報モードを開始します。"
+                    speak_client(info_msg)
+                    print info_msg + "\n"
+                    time.sleep(1.5)
+                    start_app(sc, 'sweather_forecast',
+                              'weather_forecast.py', "sweather_forecast")
+                    info_msg = "お天気をお調べします。地名を教えてください"
+                    speak_client(info_msg)
+                    print info_msg + "\n"
                     flag = False
                     break
                 elif word == "バイバイ":
                     speak_client("ろぼすけを終了します")
                     rospy.signal_shutdown('Quit')
+                preword = word
         elif sc.isLaunched is True:
             """アプリが起動しているので、終了させる"""
             if sc.node_is_launched(sc.crr_node) is False:
